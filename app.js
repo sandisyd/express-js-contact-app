@@ -1,6 +1,6 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
-const { loadContact, findContact, addContact, cekDuplikat } = require('./utils/contacts')
+const { loadContact, findContact, addContact, cekDuplikat, deleteContact } = require('./utils/contacts')
 const { body, validationResult, check, cookie } = require('express-validator');
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
@@ -113,6 +113,21 @@ app.post('/contact', [
         // res.send('Data berhasil dikirim')
 
     })
+
+//Proses delete contact
+app.get('/contact/delete/:nama', (req, res) => {
+    const contact = findContact(req.params.nama)
+
+    // Jika kontak tidak ada
+    if (!contact) {
+        res.status(404)
+        res.send('<h1>404</h1>')
+    } else {
+        deleteContact(req.params.nama)
+        req.flash('msg', 'Data contact berhasi dihapus.')
+        res.redirect('/contact')
+    }
+})
 
 //detail contact
 app.get('/contact/:nama', (req, res) => {

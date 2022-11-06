@@ -39,10 +39,18 @@ const addContact = (contact) => {
 }
 
 // cek nama yang sama
-const cekDuplikat = (nama)=>{
+const cekDuplikat = (nama) => {
     const contacts = loadContact()
     return contacts.find((contact) => contact.nama === nama)
 }
 
+//Hapus contact
+const deleteContact = (nama) => {
+    const contacts = loadContact()
+    const filteredContacts = contacts.filter((contact) => contact.nama !== nama)
+    // console.log(filteredContacts)
+    saveContacts(filteredContacts)
+}
 
-module.exports = { loadContact, findContact, addContact, cekDuplikat }
+
+module.exports = { loadContact, findContact, addContact, cekDuplikat, deleteContact }
